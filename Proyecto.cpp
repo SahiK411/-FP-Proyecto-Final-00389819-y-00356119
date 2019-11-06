@@ -9,8 +9,10 @@ void combate(int lowerRange, int upperRange, int hp, int rewardLower, int reward
     }
 }
 
-void movimiento(int currLoc, int playerMove){
-
+void movimiento(int currLoc){
+    switch(currLoc){
+        
+    }
 }
 
 int menu(int options, string option1, string option2, string option3, string option4, string option5){
@@ -211,30 +213,34 @@ void tienda(){
 }
 
 void nivel(){
-    int func = math.floor(float(experience)/35);
+    int func = math.floor(float(experience)/35) + 1;
     if(func == level++){
         level++;
     }
 }
 
-void enemigo(int id, int playerHP, int wepID, int armID){
+void enemigo(int id){
     switch(id){
         case 0:
             cout << "A lesser goblin approaches.\n";
-            combate(1, 6, 10, 5, 9, wepID, armID);
+            combate(1, 6, 10, 5, 9);
             break;
         case 1:
             cout << "You spot a wildcat stalking you from the foliage.\n";
-            combate(4, 10, 16, 5, 15, wepID, armID);
+            combate(4, 10, 16, 5, 15);
             break;
         case 2:
             cout << "An orc charges at you, screeching.\n";
-            combate(7, 16, 25, 12, 24, wepID, armID);
+            combate(7, 16, 25, 12, 24);
             break;
     }
 }
 
 int main(){
-    int location = 0;
     currentHP = maxHP;
+    int location = 0;
+    bool inGame = true;
+    while(inGame == true){
+        movimiento(0)
+    }
 }
