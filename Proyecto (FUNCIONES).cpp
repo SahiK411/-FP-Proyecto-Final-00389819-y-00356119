@@ -212,89 +212,58 @@ void nivel(){
 }
 
 void combate(int lowerRange, int upperRange, int hp, int rewardLower, int rewardUpper){
-    //Funcion que manejara el combate del juego.\
-
-    int accion, dano=0, defensa=0, x;
-
+    //Funcion que manejara el combate del juego.
+    int accion, dano=0, defensa=0, x, porce;
     while(currentHP > 0 && hp > 0){
-        accion = menu(3, "Ataque Fuerte", "Ataque Suave", "Defender", "", "");
-        switch(accion){
-            case 1:
-                switch(equipmentWeapon){
+        switch(equipmentWeapon){
                     case 0:
                         dano += 1;
-                        x = rand()% 5 + dano;
-                        if(x<0){
-                            cout<<"No has hecho dano tio"<<endl;
-                        }
-                        else{
-                            hp -= x;
-                        }
                         defensa += 0;
-
                         break;
 
                     case 1:
                         dano += 4;
-                        x = rand()% 5 + dano;
-                        if(x<0){
-                            cout<<"No has hecho dano tio"<<endl;
-                        }
-                        else{
-                            hp -= x;
-                        }
                         defensa += 0;
                         break;
 
                     case 2:
                         dano += 7;
-                        x = rand()% 5 + dano;
-                        if(x<0){
-                            cout<<"No has hecho dano tio"<<endl;
-                        }
-                        else{
-                            hp -= x;
-                        }
                         defensa += 1;
                         break;
 
                     case 3:
                         dano += 5;
-                        x = rand()% 5 + dano;
-                        if(x<0){
-                            cout<<"No has hecho dano tio"<<endl;
-                        }
-                        else{
-                            hp -= x;
-                        }
                         defensa += 4;
                         break;
 
                     case 4:
                         dano += 10;
-                        x = rand()% 5 + dano;
-                        if(x<0){
-                            cout<<"No has hecho dano tio"<<endl;
-                        }
-                        else{
-                            hp -= x;
-                        }
                         defensa -= 3;
                         break;
                     case 5:
                         dano += 10;
-                        x = rand()% 5 + dano;
-                        if(x<0){
-                            cout<<"No has hecho dano tio"<<endl;
-                        }
-                        else{
-                            hp -= x;
-                        }
                         defensa += 0;
                         break;
                 }
-
+        accion = menu(3, "Ataque Fuerte", "Ataque Suave", "Defender", "", "");
+        switch(accion){
+            case 1:
+                porce = rand() % 100 + 1;
+                if (porce >= 60){
+                    x = rand() % 5 + dano;
+                    if(x<0){
+                    cout<<"No has hecho dano tio"<<endl;
+                    }
+                    else{
+                        hp -= x;
+                    }
+                }
+                else{
+                    
+                }
                 break;
+            case 2:
+                x = rand() % 2 + dano
         }
     }
 }
