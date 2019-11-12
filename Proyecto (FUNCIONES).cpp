@@ -2,7 +2,7 @@
 #include <math.h>
 
 using namespace std;
-int maxHP = 20, currentHP, level = 1, gold = 0, experience = 0, equipmentWeapon = 0, equipmentArmor = 0, location;
+int maxHP = 20, currentHP, level = 1, gold = 0, experience = 0, equipmentWeapon = 0, equipmentArmor = 0, location, dano = 0, defensa = 0;
 
 
     int menu(int options, string option1, string option2, string option3, string option4, string option5){
@@ -130,7 +130,7 @@ void tienda(){
             case 2:
                 cout << "Bienvenido a la seccion de armaduras. Puede adquirir cualquier producto que le llame la atencion.\n";
                 cout << "Pulse '0' para salir..\n";
-                y = menu(5, "Padded clothing - 5 gold", "Leather armor - 15 gold", "Chainmail - 35 gold", "Steel under-armor - 40 gold", "Steel armor - 65 gold");
+                y = menu(5, "Set de Ropa - 5 gold", "Armadura de Cuero - 15 gold", "Malla de Metal - 35 gold", "Torso de Acero - 40 gold", "Armadura de Acero - 65 gold");
                 switch(y){
                     case 1:
                         cout << "Set de ropa. No te protejera de mucho, pero gracias a su peso ligero, aportara mayor movilidad en combate.\n +2 de ataque, +0 de defensa.\n";
@@ -185,7 +185,7 @@ void tienda(){
                             break;
                         }
                     case 5:
-                        cout << "Armadura completa de acero. Proteje de la mayor parte de los enemigos, en su contraparte, sacrifica movilidad.\n -6 de ataque, +18 de defensa.\n";
+                        cout << "Armadura completa de acero. Proteje de la mayor parte de los enemigos, en su contraparte, sacrifica movilidad.\n -6 de ataque, +14 de defensa.\n";
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
@@ -208,12 +208,14 @@ void nivel(){
     int func = int(floor(float(experience)/35) + 1);
     if(func == level++){
         level++;
+        dano += 3;
+        defensa += 1;
     }
 }
 
-void combate(int lowerRange, int upperRange, int hp, int rewardLower, int rewardUpper){
+void combate(int range,int baseDamage, int hp, int rewardRange){
     //Funcion que manejara el combate del juego.
-    int accion, dano=0, defensa=0, x, porce;
+    int accion, x, porce, tempDef;
     while(currentHP > 0 && hp > 0){
         switch(equipmentWeapon){
                     case 0:
@@ -245,26 +247,102 @@ void combate(int lowerRange, int upperRange, int hp, int rewardLower, int reward
                         defensa += 0;
                         break;
                 }
+        switch(equipmentArmor){
+                    case 0:
+                        dano += 1;
+                        defensa += 0;
+                        break;
+
+                    case 1:
+                        dano += 2;
+                        defensa += 0;
+                        break;
+
+                    case 2:
+                        dano += 0;
+                        defensa += 2;
+                        break;
+
+                    case 3:
+                        dano += 0;
+                        defensa += 4;
+                        break;
+
+                    case 4:
+                        dano -= 3;
+                        defensa += 8;
+                        break;
+                    case 5:
+                        dano -= 6;
+                        defensa += 14;
+                        break;
+                }
         accion = menu(3, "Ataque Fuerte", "Ataque Suave", "Defender", "", "");
         switch(accion){
             case 1:
                 porce = rand() % 100 + 1;
-                if (porce >= 60){
-                    x = rand() % 5 + dano;
+                if (porce >= 50){
+                    x = rand() % 1 + (dano + 3);
                     if(x<0){
-                    cout<<"No has hecho dano tio"<<endl;
+                        cout<<"No has hecho dano tio"<<endl;
                     }
                     else{
                         hp -= x;
                     }
                 }
                 else{
-                    
+                    cout << "Tu ataque no hizo contacto.\n";
                 }
                 break;
             case 2:
-                x = rand() % 2 + dano
+                porce = rand() % 100 + 1;
+                if(porce >= 30){
+                    x = rand() % 2 + dano;
+                    if(x<0){
+                        cout<<"No has hecho dano tio"<<endl;
+                    }
+                    else{
+                        cout << "Tu ataque le hizo " << x << "puntos de dano.\n";
+                        hp -= x;
+                        cout << "Su vida actual es de: " << hp << endl;
+                    }
+                }
+                else{
+                    cout << "Tu ataque no hizo contacto.\n";
+                }
+                break;
+            case 3:
+                defensa += 5;
+                break;
+            default:
+                break;
         }
+        if (hp > 0){
+            x = rand() % range + baseDamage;
+            x -= defensa;
+            if(x <= 0){
+                cout << "No tomas nada de dano.\n";
+            }
+            else{
+                cout << "Tomas " << x << " puntos de dano.\n";
+                currentHP -= x;
+                cout << "Tu vida actual es de: " << currentHP << endl;
+            }
+        }
+        else if(hp <= 0){
+            cout << "Tu enemigo yace inmobil frente a ti. Has sido victorioso.\n";
+            x = rand() % rewardRange + 6;
+            cout << "Encuentras " << x << " pedazos de oro en tu contrincante.\n";
+            gold += x;
+            cout << "Tu oro actual es de " << gold << endl;
+            x = rand() % rewardRange + 6;
+            cout << "Ganas " << x << "puntos de experiencia por la batalla.\n";
+            experience += x;
+            cout << "Tu experiencia actual es de " << experience << " puntos.\n";
+            cout << "Presiona cualquier tecla para continuar.\n";
+            cin >> x;
+        }
+        x = 0;
     }
 }
 
@@ -272,15 +350,30 @@ void enemigo(int id){
     switch(id){
         case 0:
             cout << "Un duende se asoma a lo lejos.\n";
-            combate(1, 6, 10, 5, 9);
+            if (level < 3){
+                combate(7, 3, 15, 9);
+            }
+            else{
+                combate(5, 4, 19, 2);
+            }
             break;
         case 1:
-            cout << "Detectas un Tigre observandote desde un arbusto a  lejos.\n";
-            combate(4, 10, 16, 5, 15);
+            cout << "Detectas un Tigre observandote desde un arbusto a lo lejos.\n";
+            if (level < 5){
+                combate(3, 4, 20, 10);
+            }
+            else{
+                combate(6, 7, 28, 4);
+            }
             break;
         case 2:
-            cout << "An orc charges at you, screeching.\n";
-            combate(7, 16, 25, 12, 24);
+            cout << "Un orco corre hacia ti, gritando.\n";
+            if(level < 8){
+                combate(9, 9, 25, 14);
+            }
+            else{
+                combate(13, 13, 34, 3);
+            }
             break;
     }
 }
@@ -297,12 +390,8 @@ int movimiento() {
             break;
 
         case 1:
-            cout<< "Bienvenido al Himalaya.\n"
-                   "Aqui inicia tu adventura.\n"
-                   "Aqui se encuentra la tienda. Si deseas acceder en ella presiona '1'.\n"
-                   "Recuerda, solo aqui podras acceder a ella, de lo contrario prosigue en tu adventura.\n" << endl;
-
-
+            cout << "Te encuentras dentro de un pueblo pequeno, encapsulado por paredes y fortificaciones.\n";
+            cout<< "Aqui se encuentra la tienda. Recuerda, solo aqui podras acceder a ella, de lo contrario prosigue en tu adventura.\n" << endl;
             menu_mov = menu(3,"Tienda","Bosque","","","");
             switch(menu_mov){
                 case 1:
