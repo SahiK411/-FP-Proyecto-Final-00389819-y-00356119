@@ -415,16 +415,21 @@ void enemigo(int id){
             }
             break;
         case 6:
-            cout << "Puedes ver una figura ";
+            cout << "Puedes ver una figura al fondo del pasaje. El enemigo frente a ti es un Dullahan, el cual esta usando su cabeza para escanear la cueva. Se enfoca en tu direccion, y su mano libre agarra un sable de su espalda.\n";
+            if(level < 17){
+                combate(15, 18, 56, 28);
+            }
+            else{
+                combate(20, 22, 60, 28);
+            }
+            break;
     }
 }
 
 void movimiento() {
-    int menu_mov;
-    int porce;
-    int currLoc = location;
+    int menu_mov, porce;
 
-    switch (currLoc) {
+    switch (location) {
         case 0:
             tienda();
             location = 1;
@@ -562,10 +567,30 @@ void movimiento() {
             }
             break;
         case 7:
-
+            enemigo(5);
+            cout << "Despues de la batalla, tratas de continuar por el pasaje. Sin embargo, no tardas en toparte con un muro. No importa cuanto intentes, parecce ser un callejon sin salida.\n";
+            cout << "Tu unica opcion es regresar.\n";
+            menu_mov = menu(1, "Regresar", "", "", "", "");
+            switch (menu_mov){
+                case 1:
+                    location = 5;
+                    break;
+                default:
+                    break;
+            }
             break;
         case 8:
-
+            enemigo(6);
+            cout << "Despues de la batalla, continuas por el pasaje. No tardas en encontrar una salida, la cual viene a dar a un puente. Del otro lado puedes ver un castillo abandonado.\n";
+            cout << "Deseas continuar? Esta sera tu ultima oportunidad de regresar por medio de la cueva.\n";
+            menu_mov = menu(2, "Cruzar", "Regresar por la cueva", "", "", "");
+            switch (menu_mov){
+                case 1:
+                    location = 5;
+                    break;
+                default:
+                    break;
+            }
             break;
         case 9:
 
