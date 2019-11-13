@@ -1,7 +1,6 @@
 #include <iostream>
 #include <math.h>
 #include <fstream>
-
 using namespace std;
 int maxHP = 20, currentHP, level = 1, gold = 0, experience = 0, equipmentWeapon = 0, equipmentArmor = 0, location, dano = 0, defensa = 0;
 bool inGame = true, isAlive = true;
@@ -206,7 +205,7 @@ void tienda(){
 }
 
 void nivel(){
-    int func = int(floor(float(experience)/35) + 1);
+    int func = int(floor(float(experience)/float(35)) + 1);
     if(func == level++){
         cout << "Has subido de nivel!\n" << "Tus puntos de vida se incrementan por 5, tu dano se incrementa por 3, y tu defense se incrementa por 1.\n";
         level++;
@@ -217,9 +216,10 @@ void nivel(){
     }
 }
 
-void combate(int range,int baseDamage, int hp, int rewardRange){
+bool combate(int range,int baseDamage, int hp, int rewardRange){
     //Funcion que manejara el combate del juego.
     int accion, x, porce, tempDef = defensa, tempDano = dano;
+    string n;
     while(currentHP > 0 && hp > 0){
         switch(equipmentWeapon){
                     case 0:
@@ -285,13 +285,15 @@ void combate(int range,int baseDamage, int hp, int rewardRange){
         switch(accion){
             case 1:
                 porce = rand() % 100 + 1;
-                if (porce >= 50){
+                if (porce >= 40){
                     x = rand() % 1 + (dano + 3);
-                    if(x<0){
-                        cout<<"No has hecho dano tio"<<endl;
+                    if(x <= 0){
+                        cout << "No has hecho dano tio" << endl;
                     }
                     else{
+                        cout << "Tu ataque le hizo " << x << " puntos de dano.\n";
                         hp -= x;
+                        cout << "Su vida actual es de: " << hp << endl;
                     }
                 }
                 else{
@@ -300,13 +302,13 @@ void combate(int range,int baseDamage, int hp, int rewardRange){
                 break;
             case 2:
                 porce = rand() % 100 + 1;
-                if(porce >= 30){
+                if(porce >= 20){
                     x = rand() % 2 + dano;
-                    if(x<0){
-                        cout<<"No has hecho dano tio"<<endl;
+                    if(x <= 0){
+                        cout << "No has hecho dano tio" << endl;
                     }
                     else{
-                        cout << "Tu ataque le hizo " << x << "puntos de dano.\n";
+                        cout << "Tu ataque le hizo " << x << " puntos de dano.\n";
                         hp -= x;
                         cout << "Su vida actual es de: " << hp << endl;
                     }
@@ -333,7 +335,7 @@ void combate(int range,int baseDamage, int hp, int rewardRange){
                 if(currentHP <= 0){
                     cout << "Pierdes tu vision y caes al piso. Tu aventura termina aqui.\n";
                     isAlive = false;
-                    break;
+                    return false;
                 }
                 cout << "Tu vida actual es de: " << currentHP << endl;
             }
@@ -350,7 +352,8 @@ void combate(int range,int baseDamage, int hp, int rewardRange){
             cout << "Tu experiencia actual es de " << experience << " puntos.\n";
             nivel();
             cout << "Presiona cualquier tecla para continuar.\n";
-            cin >> x;
+            cin >> n;
+            return true;
         }
         x = 0;
         defensa = tempDef;
@@ -358,76 +361,79 @@ void combate(int range,int baseDamage, int hp, int rewardRange){
     }
 }
 
-void enemigo(int id){
+bool enemigo(int id){
+    bool x;
     switch(id){
         case 0:
             cout << "Un duende se asoma a lo lejos.\n";
             if (level < 2){
-                combate(7, 3, 15, 9);
+                x = combate(7, 3, 15, 9);
             }
             else{
-                combate(5, 4, 19, 2);
+                x =combate(5, 4, 19, 2);
             }
             break;
         case 1:
             cout << "Detectas un Tigre observandote desde un arbusto a lo lejos.\n";
             if (level < 4){
-                combate(3, 4, 20, 10);
+                x = combate(3, 4, 20, 10);
             }
             else{
-                combate(6, 7, 28, 4);
+                x = combate(6, 7, 28, 4);
             }
             break;
         case 2:
             cout << "Un orco corre hacia ti, gritando.\n";
             if(level < 6){
-                combate(9, 9, 25, 14);
+                x = combate(9, 9, 25, 14);
             }
             else{
-                combate(13, 13, 34, 3);
+                x = combate(13, 13, 34, 3);
             }
             break;
         case 3:
             cout << "Una aparicion espectral se asoma a lo lejos. Arranca una espada oxidada de la tierra y se te acerca silenciosamente.\n";
             if(level < 8){
-                combate(6, 9, 30, 10);
+                x = combate(6, 9, 30, 10);
             }
             else{
-                combate(10, 13, 34, 6);
+                x = combate(10, 13, 34, 6);
             }
             break;
         case 4:
             cout << "Puedes sentir movimiento dentro de la niebla, y el agua frente a ti se desplaza violentamente. Con mucho esfuerzo, logras encontrar la fuente de la conmocion, una sirena.\n";
             if(level < 12){
-                combate(16, 15, 30, 16);
+                x = combate(16, 15, 30, 16);
             }
             else{
-                combate(18, 16, 34, 20);
+                x = combate(18, 16, 34, 20);
             }
             break;
         case 5:
             cout << "Al fondo de la cueva encuentras un golem, facilmente sobrepasa tu altura dos veces. Aparentemente pudo sentir tu movimiento, ya que se levanta y arroja una roca en tu direccion.\n";
             if(level < 15){
-                combate(5, 15, 75, 50);
+                x = combate(5, 15, 75, 50);
             }
             else{
-                combate(7, 16, 80, 55);
+                x = combate(7, 16, 80, 55);
             }
             break;
         case 6:
             cout << "Puedes ver una figura al fondo del pasaje. El enemigo frente a ti es un Dullahan, el cual esta usando su cabeza para escanear la cueva. Se enfoca en tu direccion, y su mano libre agarra un sable de su espalda.\n";
             if(level < 17){
-                combate(15, 18, 56, 28);
+                x = combate(15, 18, 56, 28);
             }
             else{
-                combate(20, 22, 60, 28);
+                x = combate(20, 22, 60, 28);
             }
             break;
     }
+    return x;
 }
 
 void movimiento() {
     int menu_mov, porce;
+    bool victory;
 
     switch (location) {
         case 0:
@@ -458,7 +464,10 @@ void movimiento() {
         case 2:
             porce = rand() % 100 + 1;
             if (porce <= 60){
-                enemigo(0);
+                victory = enemigo(0);
+            }
+            if (victory == false){
+                break;
             }
             cout << "Te encuentras en las afueras de un bosque, cercano al pueblo. La cubierta de los arboles todavia permite la entrada de la luz de sol.\n";
             cout << "De aqui te puedes adentrar al bosque, entrar a la cueva cercana, o regresar al pueblo.\n";
@@ -484,7 +493,7 @@ void movimiento() {
         case 3:
             porce = rand() % 100 + 1;
             if (porce <= 40){
-                enemigo(1);
+                victory = enemigo(1);
             }
             cout << "La entrada de la cueva se encuentra frente a ti. La poca luz que entra sera suficiente para defenderte en una pelea, pero adentrarse mas causara que tus ataques sean menos certeros.\n";
             cout << "De aqui te puedes adentrar a la cueva, salir al bosque cercano, o regresar al pueblo.\n";
@@ -509,7 +518,10 @@ void movimiento() {
         case 4:
             porce = rand() % 100 + 1;
             if (porce <= 80){
-                enemigo(3);
+                victory = enemigo(3);
+            }
+            if (victory == false){
+                break;
             }
             cout << "Te encuentras en un bosque denso. Los arbustos y las hojas muertas anuncian tu presencia a cualquier enemigo cercano, y una niebla blanca los oculta de tu vision.\n";
             cout << "Puedes continuar tu viaje, o retornar hacia las afueras del bosque.\n";
@@ -528,7 +540,10 @@ void movimiento() {
         case 5:
             porce = rand() % 100 + 1;
             if (porce <= 80){
-                enemigo(2);
+                victory = enemigo(2);
+            }
+            if (victory == false){
+                break;
             }
             cout << "La cueva ha perdido la mayor parte de la luz. Tus ojos se acostumbran a la oscuridad, permitiendote explorar cuidadosamente.\n";
             cout << "Puedes ver dos caminos en la oscuridad, y consideras cual seria el mas oportuno. Tambien podrias retornar por donde entraste, si no te sientes confidente en continuar.\n";
@@ -550,7 +565,10 @@ void movimiento() {
         case 6:
             porce = rand() % 100 + 1;
             if (porce <= 90){
-                enemigo(4);
+                victory = enemigo(4);
+            }
+            if (victory == false){
+                break;
             }
             cout << "La niebla se dispersa lo suficiente para ver claramente. Al otro lado de un foso lleno de agua puedes ver un castillo. Parece abandonado.\n";
             cout << "Esta sera tu ultima oportunidad de regresar por medio del bosque. Deseas cruzar el foso?\n";
@@ -567,7 +585,10 @@ void movimiento() {
             }
             break;
         case 7:
-            enemigo(5);
+            victory = enemigo(5);
+            if (victory == false){
+                break;
+            }
             cout << "Despues de la batalla, tratas de continuar por el pasaje. Sin embargo, no tardas en toparte con un muro. No importa cuanto intentes, parecce ser un callejon sin salida.\n";
             cout << "Tu unica opcion es regresar.\n";
             menu_mov = menu(1, "Regresar", "", "", "", "");
@@ -580,7 +601,10 @@ void movimiento() {
             }
             break;
         case 8:
-            enemigo(6);
+            victory = enemigo(6);
+            if (victory == false){
+                break;
+            }
             cout << "Despues de la batalla, continuas por el pasaje. No tardas en encontrar una salida, la cual viene a dar a un puente. Del otro lado puedes ver un castillo abandonado.\n";
             cout << "Deseas continuar? Esta sera tu ultima oportunidad de regresar por medio de la cueva.\n";
             menu_mov = menu(2, "Cruzar", "Regresar por la cueva", "", "", "");
@@ -593,7 +617,10 @@ void movimiento() {
             }
             break;
         case 9:
-
+            victory = enemigo(7);
+            if (victory == false){
+                break;
+            }
             break;
     }
 }
@@ -661,7 +688,7 @@ void loadGame(){
 
 int main(){
     currentHP = maxHP;
-    location = 0;
+    location = 1;
     int x;
     while(inGame == true){
         x = menu(3, "Nuevo Juego", "Cargar Juego", "Salir", "", "");
