@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <fstream>
 
 using namespace std;
 int maxHP = 20, currentHP, level = 1, gold = 0, experience = 0, equipmentWeapon = 0, equipmentArmor = 0, location, dano = 0, defensa = 0;
@@ -207,15 +208,18 @@ void tienda(){
 void nivel(){
     int func = int(floor(float(experience)/35) + 1);
     if(func == level++){
+        cout << "Has subido de nivel!\n" << "Tus puntos de vida se incrementan por 5, tu dano se incrementa por 3, y tu defense se incrementa por 1.\n";
         level++;
         dano += 3;
         defensa += 1;
+        maxHP += 5;
+        currentHP = maxHP;
     }
 }
 
 void combate(int range,int baseDamage, int hp, int rewardRange){
     //Funcion que manejara el combate del juego.
-    int accion, x, porce, tempDef;
+    int accion, x, porce, tempDef = defensa, tempDano = dano;
     while(currentHP > 0 && hp > 0){
         switch(equipmentWeapon){
                     case 0:
@@ -339,10 +343,13 @@ void combate(int range,int baseDamage, int hp, int rewardRange){
             cout << "Ganas " << x << "puntos de experiencia por la batalla.\n";
             experience += x;
             cout << "Tu experiencia actual es de " << experience << " puntos.\n";
+            nivel();
             cout << "Presiona cualquier tecla para continuar.\n";
             cin >> x;
         }
         x = 0;
+        defensa = tempDef;
+        dano = tempDano;
     }
 }
 
@@ -350,7 +357,7 @@ void enemigo(int id){
     switch(id){
         case 0:
             cout << "Un duende se asoma a lo lejos.\n";
-            if (level < 3){
+            if (level < 2){
                 combate(7, 3, 15, 9);
             }
             else{
@@ -359,7 +366,7 @@ void enemigo(int id){
             break;
         case 1:
             cout << "Detectas un Tigre observandote desde un arbusto a lo lejos.\n";
-            if (level < 5){
+            if (level < 4){
                 combate(3, 4, 20, 10);
             }
             else{
@@ -368,13 +375,21 @@ void enemigo(int id){
             break;
         case 2:
             cout << "Un orco corre hacia ti, gritando.\n";
-            if(level < 8){
+            if(level < 6){
                 combate(9, 9, 25, 14);
             }
             else{
                 combate(13, 13, 34, 3);
             }
             break;
+        case 3:
+            cout << "Una aparicion espectral se asoma a lo lejos. Arranca una espada oxidada de la tierra y se te acerca silenciosamente.\n";
+            if(level < 8){
+                combate(6, 9, 30, 10);
+            }
+            else{
+                combate(10, 13, 34, 6);
+            }
     }
 }
 
@@ -391,8 +406,8 @@ int movimiento() {
 
         case 1:
             cout << "Te encuentras dentro de un pueblo pequeno, encapsulado por paredes y fortificaciones.\n";
-            cout<< "Aqui se encuentra la tienda. Recuerda, solo aqui podras acceder a ella, de lo contrario prosigue en tu adventura.\n" << endl;
-            menu_mov = menu(3,"Tienda","Bosque","","","");
+            cout<< "Aqui se encuentra la tienda. Recuerda, solo aqui podras acceder a ella, de lo contrario prosigue en tu adventura. Puedes acercarte al bosque, o entrar a la cueva cercana.\n" << endl;
+            menu_mov = menu(3,"Tienda","Bosque","Cueva","","");
             switch(menu_mov){
                 case 1:
                     location = 0;
@@ -401,26 +416,81 @@ int movimiento() {
                 case 2:
                     location = 2;
                     break;
+                case 3:
+                    location = 3;
+                    break;
+                default:
+                    break;
             }
-
-                break;
+            break;
 
         case 2:
-            cout;
             porce = rand() % 100 + 1;
-            if (porce <= 35){
-                enemigo(1);
+            if (porce <= 60){
+                enemigo(0);
+            }
+            cout << "Te encuentras en las afueras de un bosque, cercano al pueblo. La cubierta de los arboles todavia permite la entrada de la luz de sol.\n";
+            cout << "De aqui te puedes adentrar al bosque, entrar a la cueva cercana, o regresar al pueblo.\n";
+            menu_mov = menu(3, "Ir al Bosque Profundo", "Buscar la Cueva", "Regresar al Pueblo", "", "");
+            switch(menu_mov){
+                case 1:
+                    location = 4;
+                    break;
+                case 2:
+                    location = 3;
+                    break;
+                case 3:
+                    location = 1;
+                    break;
+                default:
+                    break;
             }
             break;
 
         case 3:
-
+            porce = rand() % 100 + 1;
+            if (porce <= 40){
+                enemigo(1);
+            }
+            cout << "La entrada de la cueva se encuentra frente a ti. La poca luz que entra sera suficiente para defenderte en una pelea, pero adentrarse mas causara que tus ataques sean menos certeros.\n";
+            cout << "De aqui te puedes adentrar a la cueva, salir al bosque cercano, o regresar al pueblo.\n";
+            menu_mov = menu(3, "Adentrarse a la cueva", "Ir al bosque", "Regresar al pueblo", "", "");
+            switch(menu_mov){
+                case 1:
+                    location = 5;
+                    break;
+                case 2:
+                    location = 2;
+                    break;
+                case 3:
+                    location = 1;
+                    break;
+                default:
+                    break;
+            }
             break;
-
         case 4:
-
+            porce = rand() % 100 + 1;
+            if (porce <= 80){
+                enemigo(2);
+            }
+            cout << "La entrada de la cueva se encuentra frente a ti. La poca luz que entra sera suficiente para defenderte en una pelea, pero adentrarse mas causara que tus ataques sean menos certeros.\n";
+            cout << "De aqui te puedes adentrar a la cueva, salir al bosque cercano, o regresar al pueblo.\n";
+            menu_mov = menu(3, "Adentrarse a la cueva", "Ir al bosque", "Regresar al pueblo", "", "");
+            switch(menu_mov){
+                case 1:
+                    location = 5;
+                    break;
+                case 2:
+                    location = 2;
+                    break;
+                case 3:
+                    location = 1;
+                    break;
+                default:
+                    break;
+            }
             break;
-
         case 5:
 
             break;
@@ -443,11 +513,87 @@ int movimiento() {
     }
 }
 
+void saveGame(){
+    //Funcion para guardar una partida.
+    string name;
+    cout << "Ingrese el nombre asignado al archivo del juego.\n";
+    cin >> name;
+    ofstream newSave (name + ".txt");
+    if(newSave.is_open()){
+        newSave << string(level) << endl;
+        newSave << string(experience) << endl;
+        newSave << string(equipmentArmor) << endl;
+        newSave << string(equipmentWeapon) << endl;
+        newSave << string(maxHP) << endl;
+        newSave << string(currentHP) << endl;
+        newSave << string(gold) << endl;
+        newSave.close();
+    }
+    else{
+        cout << "Se produjo un error.";
+    }
+}
+
+void loadGame(){
+    //Funcion para cargar una partida previa de un archivo externo.
+    string name, line;
+    cout << "Ingrese el nombre asignado al archivo del juego, omitiendo la terminacion del mismo (.txt).\n";
+    cin >> name;
+    ifstream oldSave (name + ".txt");
+    if(oldSave.is_open()){
+        /*for (int i = 0, i < 7, i++){
+                switch(i){
+                    case 0:
+                        level = int(line);
+                        break;
+                    case 1:
+                        experience = int(line);
+                        break;
+                    case 2:
+                        equipmentArmor = int(line);
+                        break;
+                    case 3:
+                        equipmentWeapon = int(line);
+                        break;
+                    case 4:
+                        maxHP = int(line);
+                        break;
+                    case 5:
+                        currentHP = int(line);
+                        break;
+                    case 6:
+                        gold = int(line);
+                        break;
+                }
+            } */
+        oldSave.close();
+    }
+    else{
+        cout << "Se produjo un error.";
+    }
+}
+
 int main(){
     currentHP = maxHP;
     location = 0;
-    bool inGame = true;
+    bool inGame = true, isAlive = true;
+    int x;
     while(inGame == true){
+        x = menu(3, "Nuevo Juego", "Cargar Juego", "Salir");
+        switch(x){
+        case 1:
+            break;
+        case 2:
+            loadGame();
+            break;
+        case 3:
+            inGame = false;
+            isAlive = false
+            return 0;
+    }
+    while(isAlive == true){
         location = movimiento();
     }
+    }
+    
 }
