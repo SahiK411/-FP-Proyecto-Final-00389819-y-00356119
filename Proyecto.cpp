@@ -1,6 +1,9 @@
 #include <iostream>
 #include <math.h>
 #include <fstream>
+#include <time.h>
+#include <string>
+#include <cstdlib>
 using namespace std;
 int maxHP = 20, currentHP, level = 1, gold = 0, experience = 0, equipmentWeapon = 0, equipmentArmor = 0, location, dano = 0, defensa = 0;
 bool inGame = true, isAlive = true;
@@ -48,9 +51,9 @@ void tienda(){
     int x = 1, y; //Funcion para cambiar el arma y armadura del jugador mediante compras.
     string z;
     cout << "Usted entra a la tienda. La mercancia se encuentra dividida en dos puestos distintos.\n";
-    cout << "Pulse '0' para salir.\n";
     while (x != 0){
-        x = menu(2, "- Comprar armas.", "- Comprar armadura.", "","","");
+        cout << "Su oro actual es de: " << gold << ". Pulse '0' para salir.\n";
+        x = menu(2, "Comprar armas.", "Comprar armadura.", "","","");
         switch (x){
             case 1:
                 cout << "Bienvenido a la seccion de armas. Puede adquirir cualquier producto que le llame la atencion.\n";
@@ -58,13 +61,19 @@ void tienda(){
                 y = menu(5, "Espada de entrenamiento - 20 ORO" , "Alabarda Oxidada - 35 ORO", "Espada de plata - 40 ORO", " Sable de acero- 50 ORO", "Lanza de Oro - 70 ORO");
                 switch (y){
                     case 1:
-                        cout << "Pequena espada de entrenamiento. +3 de ataque, +0 de defensa.\n";
+                        cout << "Pequeña espada de entrenamiento. +3 de ataque, +0 de defensa.\n";
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 20;
-                            equipmentWeapon = 1;
-                            break;
+                            if(gold >= 20){
+                                gold -= 20;
+                                equipmentWeapon = 1;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
@@ -75,35 +84,53 @@ void tienda(){
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 35;
-                            equipmentWeapon = 2;
-                            break;
+                            if(gold >= 35){
+                                gold -= 35;
+                                equipmentWeapon = 2;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
                             break;
                         }
                     case 3:
-                        cout << "Espada de plata. Arma ligera, permitiendo mayor agilidad al momento del combaate. +4 de ataque, +4 de defensa.\n";
+                        cout << "Espada de plata. Arma ligera, permitiendo mayor agilidad al momento del combate. +4 de ataque, +4 de defensa.\n";
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 40;
-                            equipmentWeapon = 3;
-                            break;
+                            if(gold >= 40){
+                                gold -= 40;
+                                equipmentWeapon = 3;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
                             break;
                         }
                     case 4:
-                        cout << "Sable de acero. El acero aporta una mayor durabilidad al arama, permite atravesar a los enemigos con facilidad. Debido al material de construccion, el hierro sacrifica movilidad a la hora del combate.\n +9 de ataque, -3 defensa.\n";
+                        cout << "Sable de acero. El acero aporta una mayor durabilidad al arma, permite atravesar a los enemigos con facilidad. Debido al material de construccion, el hierro sacrifica movilidad a la hora del combate.\n +9 de ataque, -3 defensa.\n";
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 50;
-                            equipmentWeapon = 4;
-                            break;
+                            if(gold >= 50){
+                                gold -= 50;
+                                equipmentWeapon = 4;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
@@ -114,9 +141,15 @@ void tienda(){
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 70;
-                            equipmentWeapon = 5;
-                            break;
+                            if(gold >= 70){
+                                gold -= 70;
+                                equipmentWeapon = 5;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
@@ -137,9 +170,15 @@ void tienda(){
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 5;
-                            equipmentArmor = 1;
-                            break;
+                            if(gold >= 5){
+                                gold -= 5;
+                                equipmentArmor = 1;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
@@ -150,9 +189,15 @@ void tienda(){
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 15;
-                            equipmentArmor = 2;
-                            break;
+                            if(gold >= 15){
+                                gold -= 15;
+                                equipmentArmor = 2;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
@@ -163,9 +208,15 @@ void tienda(){
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 35;
-                            equipmentArmor = 3;
-                            break;
+                            if(gold >= 35){
+                                gold -= 35;
+                                equipmentArmor = 3;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
@@ -176,9 +227,15 @@ void tienda(){
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 40;
-                            equipmentArmor = 4;
-                            break;
+                            if(gold >= 40){
+                                gold -= 40;
+                                equipmentArmor = 4;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
@@ -189,9 +246,15 @@ void tienda(){
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            gold -= 65;
-                            equipmentArmor = 5;
-                            break;
+                            if(gold >= 65){
+                                gold -= 65;
+                                equipmentArmor = 5;
+                                break;
+                            }
+                            else{
+                                cout << "No tienes suficiente oro.\n";
+                                break;
+                            }
                         }
                         else
                         {
@@ -211,7 +274,7 @@ void nivel(){
         level++;
         dano += 3;
         defensa += 1;
-        maxHP += 5;
+        maxHP += 10;
         currentHP = maxHP;
     }
 }
@@ -220,6 +283,7 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
     //Funcion que manejara el combate del juego.
     int accion, x, porce, tempDef = defensa, tempDano = dano;
     string n;
+    srand (time(NULL));
     while(currentHP > 0 && hp > 0){
         switch(equipmentWeapon){
                     case 0:
@@ -286,7 +350,7 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
             case 1:
                 porce = rand() % 100 + 1;
                 if (porce >= 40){
-                    x = rand() % 1 + (dano + 3);
+                    x = rand() % 3 + (dano);
                     if(x <= 0){
                         cout << "No has hecho dano tio" << endl;
                     }
@@ -303,7 +367,7 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
             case 2:
                 porce = rand() % 100 + 1;
                 if(porce >= 20){
-                    x = rand() % 2 + dano;
+                    x = rand() % 1 + dano;
                     if(x <= 0){
                         cout << "No has hecho dano tio" << endl;
                     }
@@ -353,6 +417,8 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
             nivel();
             cout << "Presiona cualquier tecla para continuar.\n";
             cin >> n;
+            defensa = tempDef;
+            dano = tempDano;
             return true;
         }
         x = 0;
@@ -370,11 +436,11 @@ bool enemigo(int id){
                 x = combate(7, 3, 15, 9);
             }
             else{
-                x =combate(5, 4, 19, 2);
+                x = combate(5, 4, 19, 2);
             }
             break;
         case 1:
-            cout << "Detectas un Tigre observandote desde un arbusto a lo lejos.\n";
+            cout << "Detectas un tigre observandote desde un arbusto a lo lejos.\n";
             if (level < 4){
                 x = combate(3, 4, 20, 10);
             }
@@ -412,14 +478,14 @@ bool enemigo(int id){
         case 5:
             cout << "Al fondo de la cueva encuentras un golem, facilmente sobrepasa tu altura dos veces. Aparentemente pudo sentir tu movimiento, ya que se levanta y arroja una roca en tu direccion.\n";
             if(level < 15){
-                x = combate(5, 15, 75, 50);
+                x = combate(50, 15, 75, 50);
             }
             else{
-                x = combate(7, 16, 80, 55);
+                x = combate(70, 16, 80, 55);
             }
             break;
         case 6:
-            cout << "Puedes ver una figura al fondo del pasaje. El enemigo frente a ti es un Dullahan, el cual esta usando su cabeza para escanear la cueva. Se enfoca en tu direccion, y su mano libre agarra un sable de su espalda.\n";
+            cout << "Puedes ver una figura al fondo del pasaje. El enemigo frente a ti es un dullahan, el cual esta usando su cabeza para escanear la cueva. Se enfoca en tu direccion, y su mano libre agarra un sable de su espalda.\n";
             if(level < 17){
                 x = combate(15, 18, 56, 28);
             }
@@ -427,6 +493,9 @@ bool enemigo(int id){
                 x = combate(20, 22, 60, 28);
             }
             break;
+        case 7:
+            cout << "Te encuentras a un dragon de tres cabezas. Inmediatamente se mueve, quebrando la pared detras de ti y bloqueando tu salida. Esta sera tu ultima batalla.\n";
+            x = combate(30, 42, 90, 100);
     }
     return x;
 }
@@ -434,6 +503,7 @@ bool enemigo(int id){
 void movimiento() {
     int menu_mov, porce;
     bool victory;
+    srand (time(NULL));
 
     switch (location) {
         case 0:
@@ -442,7 +512,7 @@ void movimiento() {
             break;
 
         case 1:
-            cout << "Te encuentras dentro de un pueblo pequeno, encapsulado por paredes y fortificaciones.\n";
+            cout << "Te encuentras dentro de un pueblo pequeño, encapsulado por paredes y fortificaciones.\n";
             cout<< "Aqui se encuentra la tienda. Recuerda, solo aqui podras acceder a ella, de lo contrario prosigue en tu adventura. Puedes acercarte al bosque, o entrar a la cueva cercana.\n" << endl;
             menu_mov = menu(3,"Tienda","Bosque","Cueva","","");
             switch(menu_mov){
@@ -627,20 +697,38 @@ void movimiento() {
 
 void saveGame(){
     //Funcion para guardar una partida.
-    string name;
+    string name, line, recordedName, recordedLvl, recordedExp, recEquiArm, recEquiWep, recHP, recCurrHP, recGold, recLocation;
     cout << "Ingrese el nombre asignado al archivo del juego.\n";
     cin >> name;
-    ofstream newSave ("Saves.txt");
-    if(newSave.is_open()){
-        newSave << name << " ";
-        newSave << to_string(level) << " ";
-        newSave << to_string(experience) << " ";
-        newSave << to_string(equipmentArmor) << " ";
-        newSave << to_string(equipmentWeapon) << " ";
-        newSave << to_string(maxHP) << " ";
-        newSave << to_string(currentHP) << " ";
-        newSave << to_string(gold) << " ";
+    fstream Save("Saves.txt", ios::app);
+    ofstream newSave("Savestemp.txt");
+    if(Save.is_open()){
+        while(!Save.eof()){
+            Save >> recordedName >> recordedLvl >> recordedExp >> recEquiArm >> recEquiWep >> recHP >> recCurrHP >> recGold >> recLocation;
+            if(recordedName == name){
+                recordedLvl = to_string(level);
+                recordedExp = to_string(experience);
+                recEquiArm = to_string(equipmentArmor);
+                recEquiWep = to_string(equipmentWeapon);
+                recHP = to_string(maxHP);
+                recCurrHP = to_string(currentHP);
+                recGold = to_string(gold);
+                recLocation = to_string(location);
+            }
+            else{
+                Save << endl;
+                Save << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
+                Save << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location);
+            }
+        }
+        while(getline(Save, line)){
+            newSave << line;
+        }
+        //reemplazar un archivo por otro
+        Save.close();
         newSave.close();
+        remove("Save.txt");                    // borrar el original
+        rename("newSave.txt", "Save.txt");  // renombrar el temporal
     }
     else{
         cout << "Se produjo un error.";
@@ -649,41 +737,29 @@ void saveGame(){
 
 void loadGame(){
     //Funcion para cargar una partida previa de un archivo externo.
-    string name, line;
-    cout << "Ingrese el nombre asignado al archivo del juego, omitiendo la terminacion del mismo (.txt).\n";
+    string name, line, recordedName, recordedLvl, recordedExp, recEquiArm, recEquiWep, recHP, recCurrHP, recGold, recLocation;
+    cout << "Ingrese el nombre asignado a tu partida anterior.\n";
     cin >> name;
-    ifstream oldSave (name + ".txt");
-    if(oldSave.is_open()){
-        /*for (int i = 0, i < 7, i++){
-                switch(i){
-                    case 0:
-                        level = int(line);
-                        break;
-                    case 1:
-                        experience = int(line);
-                        break;
-                    case 2:
-                        equipmentArmor = int(line);
-                        break;
-                    case 3:
-                        equipmentWeapon = int(line);
-                        break;
-                    case 4:
-                        maxHP = int(line);
-                        break;
-                    case 5:
-                        currentHP = int(line);
-                        break;
-                    case 6:
-                        gold = int(line);
-                        break;
-                }
-            } */
-        oldSave.close();
-    }
-    else{
-        cout << "Se produjo un error.";
-    }
+
+    fstream Save("Saves.txt"); //leer de este archivo
+  
+	if(!Save){//no se pudo abrir alguno de los 2
+		cout << "Error al abrir el archivo!" << endl;
+	}
+	//modificar linea a linea
+	while(!Save.eof()){
+		Save >> recordedName >> recordedLvl >> recordedExp >> recEquiArm >> recEquiWep >> recHP >> recCurrHP >> recGold >> recLocation;
+            if(recordedName == name){
+                level = atoi(recordedLvl.c_str());
+                experience = atoi(recordedExp.c_str());
+                equipmentArmor = atoi(recEquiArm.c_str());
+                equipmentWeapon = atoi(recEquiArm.c_str());
+                maxHP = atoi(recHP.c_str());
+                currentHP = atoi(recCurrHP.c_str());
+                gold = atoi(recGold.c_str());
+                location = atoi(recLocation.c_str());
+            }
+	}
 }
 
 int main(){
@@ -694,9 +770,11 @@ int main(){
         x = menu(3, "Nuevo Juego", "Cargar Juego", "Salir", "", "");
         switch(x){
         case 1:
+            isAlive = true;
             break;
         case 2:
             loadGame();
+            isAlive = true;
             break;
         case 3:
             inGame = false;
