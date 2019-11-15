@@ -535,7 +535,6 @@ void saveGame(){
     string name, line, line2, recordedName, recordedLvl, recordedExp, recEquiArm, recEquiWep, recHP, recCurrHP, recGold, recLocation;
     cout << "Ingrese el nombre asignado al archivo del juego.\n";
     cin >> name;
-    ofstream newSave("newSaves.txt");
     ofstream Save("Saves.txt", ios::app);
     ifstream Save2("Saves.txt");
     if(Save.is_open()){
@@ -550,24 +549,22 @@ void saveGame(){
                 recCurrHP = to_string(currentHP);
                 recGold = to_string(gold);
                 recLocation = to_string(location);
-                line = recordedLvl + " " + recordedExp + " " + recEquiArm + " " + recEquiWep + " " + recHP + " " + recCurrHP + " " + recGold + " " + recLocation;
+                Save << recordedLvl << recordedExp << recEquiArm << recEquiWep << recHP << recCurrHP << recGold << recLocation;
                 break;
             }
-        }
-        if(Save2.eof()){
-            Save << endl;
-            Save << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
-            Save << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location);
             }
+            if(Save2.eof()){
+                Save << endl;
+                Save << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
+                Save << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location);
+            }    
     }
     else{
         cout << "Se produjo un error.";
     }
     Save.close();
     Save2.close();
-    newSave.close();
-    remove("Saves.txt");
-    rename("newSaves.txt", "Saves.txt");
+    
 }
 
 void loadGame(){
