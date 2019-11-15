@@ -94,7 +94,7 @@ void tienda(){
                 y = menu(5, "Espada de entrenamiento - 20 ORO" , "Alabarda Oxidada - 35 ORO", "Espada de plata - 40 ORO", " Sable de acero- 50 ORO", "Lanza de Oro - 70 ORO");
                 switch (y){
                     case 1:
-                        cout << "Pequeña espada de entrenamiento. +3 de ataque, +0 de defensa.\n";
+                        cout << "Pequena espada de entrenamiento. +3 de ataque, +0 de defensa.\n";
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
@@ -301,7 +301,7 @@ void tienda(){
 }
 
 void nivel(){
-    int func = int(floor(float(experience)/float(35)) + 1);
+    int func = int(floor(float(experience/(35))) + 1);
     if(func == level++){
         cout << "Has subido de nivel!\n" << "Tus puntos de vida se incrementan por 5, tu dano se incrementa por 3, y tu defense se incrementa por 1.\n";
         level++;
@@ -417,6 +417,15 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
                 break;
             case 3:
                 tempDef += 5;
+                porce = rand() % 100 + 1;
+                if(porce >= 50){
+                    currentHP += 10;
+                    if(currentHP > maxHP){
+                        currentHP = maxHP;
+                    }
+                    cout << "Recuperas 10 de vida!\n";
+                    cout << "Tu vida actual es de: " << currentHP << endl;
+                }
                 break;
             default:
                 break;
@@ -445,11 +454,11 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
             gold += x;
             cout << "Tu oro actual es de " << gold << endl;
             x = rand() % rewardRange + 6;
-            cout << "Ganas " << x << "puntos de experiencia por la batalla.\n";
+            cout << "Ganas " << x << " puntos de experiencia por la batalla.\n";
             experience += x;
             cout << "Tu experiencia actual es de " << experience << " puntos.\n";
             nivel();
-            cout << "Presiona cualquier tecla para continuar.\n";
+            cout << "Entra cualquier valor para continuar.\n";
             cin >> n;
             return true;
         }
@@ -606,7 +615,8 @@ void movimiento() {
             break;
 
         case 1:
-            cout << "Te encuentras dentro de un pueblo pequeño, encapsulado por paredes y fortificaciones.\n";
+            cout << "Te encuentras dentro de un pueblo pequeno, encapsulado por paredes y fortificaciones.\n";
+            currentHP = maxHP;
             cout<< "Aqui se encuentra la tienda. Recuerda, solo aqui podras acceder a ella, de lo contrario prosigue en tu adventura. Puedes acercarte al bosque, o entrar a la cueva cercana.\n" << endl;
             menu_mov = menu(4,"Tienda","Bosque","Cueva","Deseas guardar tu partida?","");
             switch(menu_mov){
@@ -692,6 +702,9 @@ void movimiento() {
             }
             cout << "Te encuentras en un bosque denso. Los arbustos y las hojas muertas anuncian tu presencia a cualquier enemigo cercano, y una niebla blanca los oculta de tu vision.\n";
             cout << "Puedes continuar tu viaje, o retornar hacia las afueras del bosque.\n";
+            if(level < 10){
+                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+            }
             menu_mov = menu(2, "Buscar la salida del bosque", "Regresar a las afueras del bosque", "", "", "");
             switch(menu_mov){
                 case 1:
@@ -714,6 +727,9 @@ void movimiento() {
             }
             cout << "La cueva ha perdido la mayor parte de la luz. Tus ojos se acostumbran a la oscuridad, permitiendote explorar cuidadosamente.\n";
             cout << "Puedes ver dos caminos en la oscuridad, y consideras cual seria el mas oportuno. Tambien podrias retornar por donde entraste, si no te sientes confidente en continuar.\n";
+            if(level < 14){
+                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+            }
             menu_mov = menu(3, "El camino de la izquierda", "El camino de la derecha", "Retornar", "", "");
             switch(menu_mov){
                 case 1:
@@ -739,6 +755,9 @@ void movimiento() {
             }
             cout << "La niebla se dispersa lo suficiente para ver claramente. Al otro lado de un foso lleno de agua puedes ver un castillo. Parece abandonado.\n";
             cout << "Esta sera tu ultima oportunidad de regresar por medio del bosque. Deseas cruzar el foso?\n";
+            if(level < 17){
+                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+            }
             menu_mov = menu(2, "Cruzar", "Regresar al bosque", "", "", "");
             switch(menu_mov){
                 case 1:
@@ -774,10 +793,13 @@ void movimiento() {
             }
             cout << "Despues de la batalla, continuas por el pasaje. No tardas en encontrar una salida, la cual viene a dar a un puente. Del otro lado puedes ver un castillo abandonado.\n";
             cout << "Deseas continuar? Esta sera tu ultima oportunidad de regresar por medio de la cueva.\n";
+            if(level < 17){
+                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+            }
             menu_mov = menu(2, "Cruzar", "Regresar por la cueva", "", "", "");
             switch (menu_mov){
                 case 1:
-                    location = 5;
+                    location = 9;
                     break;
                 default:
                     break;
