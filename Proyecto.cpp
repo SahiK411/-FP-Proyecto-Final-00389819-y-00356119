@@ -13,7 +13,7 @@ int menu(int options, string option1, string option2, string option3, string opt
     bool good = true;
     while(good == true){
         switch (options){
-                case 1:
+            case 1:
                 cout << "\t1- " << option1 << endl;
                 cin >> playerOption;
                 if(playerOption == "1"){
@@ -23,7 +23,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                     cout << "Por favor escoja el numero de una opcion valida.\n";
                 }
                 break;
-                case 2:
+            case 2:
                 cout << "\t1- " << option1 << endl;
                 cout << "\t2- " << option2 << endl;
                 cin >> playerOption;
@@ -34,7 +34,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                     cout << "Por favor escoja el numero de una opcion valida.\n";
                 }
                 break;
-                case 3:
+            case 3:
                 cout << "\t1- " << option1 << endl;
                 cout << "\t2- " << option2 << endl;
                 cout << "\t3- " << option3 << endl;
@@ -46,7 +46,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                     cout << "Por favor escoja el numero de una opcion valida.\n";
                 }
                 break;
-                case 4:
+            case 4:
                 cout << "\t1- " << option1 << endl;
                 cout << "\t2- " << option2 << endl;
                 cout << "\t3- " << option3 << endl;
@@ -59,7 +59,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                     cout << "Por favor escoja el numero de una opcion valida.\n";
                 }
                 break;
-                case 5:
+            case 5:
                 cout << "\t1- " << option1 << endl;
                 cout << "\t2- " << option2 << endl;
                 cout << "\t3- " << option3 << endl;
@@ -72,7 +72,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                 else{
                     cout << "Por favor escoja el numero de una opcion valida.\n";
                 }
-                default:
+            default:
                 break;
         }
     }
@@ -304,7 +304,7 @@ void nivel(){
     int temp = level + 1;
     int check = int(floor(experience/35));
     int func = check + 1;
-        if(func >= temp){
+    if(func >= temp){
         cout << "Has subido de nivel!\n" << "Tus puntos de vida se incrementan por 5, tu dano se incrementa por 3, y tu defense se incrementa por 1.\n";
         level++;
         dano += 3;
@@ -322,65 +322,65 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
     while(currentHP > 0 && hp > 0){
         int tempDef = defensa, tempDano = dano;
         switch(equipmentWeapon){
-                    case 0:
-                        tempDano += 1;
-                        tempDef += 0;
-                        break;
+            case 0:
+                tempDano += 1;
+                tempDef += 0;
+                break;
 
-                    case 1:
-                        tempDano += 4;
-                        tempDef += 0;
-                        break;
+            case 1:
+                tempDano += 4;
+                tempDef += 0;
+                break;
 
-                    case 2:
-                        tempDano += 7;
-                        tempDef += 1;
-                        break;
+            case 2:
+                tempDano += 7;
+                tempDef += 1;
+                break;
 
-                    case 3:
-                        tempDano += 5;
-                        tempDef += 4;
-                        break;
+            case 3:
+                tempDano += 5;
+                tempDef += 4;
+                break;
 
-                    case 4:
-                        tempDano += 10;
-                        tempDef -= 3;
-                        break;
-                    case 5:
-                        tempDano += 10;
-                        tempDef += 0;
-                        break;
-                }
+            case 4:
+                tempDano += 10;
+                tempDef -= 3;
+                break;
+            case 5:
+                tempDano += 10;
+                tempDef += 0;
+                break;
+        }
         switch(equipmentArmor){
-                    case 0:
-                        tempDano += 1;
-                        tempDef += 0;
-                        break;
+            case 0:
+                tempDano += 1;
+                tempDef += 0;
+                break;
 
-                    case 1:
-                        tempDano += 2;
-                        tempDef += 0;
-                        break;
+            case 1:
+                tempDano += 2;
+                tempDef += 0;
+                break;
 
-                    case 2:
-                        tempDano += 0;
-                        tempDef += 2;
-                        break;
+            case 2:
+                tempDano += 0;
+                tempDef += 2;
+                break;
 
-                    case 3:
-                        tempDano += 0;
-                        tempDef += 4;
-                        break;
+            case 3:
+                tempDano += 0;
+                tempDef += 4;
+                break;
 
-                    case 4:
-                        tempDano -= 3;
-                        tempDef += 8;
-                        break;
-                    case 5:
-                        dano -= 6;
-                        defensa += 14;
-                        break;
-                }
+            case 4:
+                tempDano -= 3;
+                tempDef += 8;
+                break;
+            case 5:
+                dano -= 6;
+                defensa += 14;
+                break;
+        }
         accion = menu(3, "Ataque Fuerte", "Ataque Suave", "Defender", "", "");
         switch(accion){
             case 1:
@@ -466,6 +466,7 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
         }
         x = 0;
     }
+    return true;
 }
 
 bool enemigo(int id){
@@ -563,19 +564,19 @@ void saveGame(){
                 Save << recordedLvl << recordedExp << recEquiArm << recEquiWep << recHP << recCurrHP << recGold << recLocation;
                 break;
             }
-            }
-            if(Save2.eof()){
-                Save << endl;
-                Save << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
-                Save << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location);
-            }    
+        }
+        if(Save2.eof()){
+            Save << endl;
+            Save << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
+            Save << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location);
+        }
     }
     else{
         cout << "Se produjo un error.";
     }
     Save.close();
     Save2.close();
-    
+
 }
 
 bool loadGame(){
@@ -584,25 +585,25 @@ bool loadGame(){
     cout << "Ingrese el nombre asignado a tu partida anterior.\n";
     cin >> name;
     fstream Save("Saves.txt"); //leer de este archivo
-  
-	if(!Save){
-		cout << "Error al abrir el archivo!" << endl;
-	}
-	
-	while(!Save.eof()){
-		Save >> recordedName >> recordedLvl >> recordedExp >> recEquiArm >> recEquiWep >> recHP >> recCurrHP >> recGold >> recLocation;
-            if(recordedName == name){
-                level = atoi(recordedLvl.c_str());
-                experience = atoi(recordedExp.c_str());
-                equipmentArmor = atoi(recEquiArm.c_str());
-                equipmentWeapon = atoi(recEquiArm.c_str());
-                maxHP = atoi(recHP.c_str());
-                currentHP = atoi(recCurrHP.c_str());
-                gold = atoi(recGold.c_str());
-                location = atoi(recLocation.c_str());
-                return true;
-            }
-	}
+
+    if(!Save){
+        cout << "Error al abrir el archivo!" << endl;
+    }
+
+    while(!Save.eof()){
+        Save >> recordedName >> recordedLvl >> recordedExp >> recEquiArm >> recEquiWep >> recHP >> recCurrHP >> recGold >> recLocation;
+        if(recordedName == name){
+            level = atoi(recordedLvl.c_str());
+            experience = atoi(recordedExp.c_str());
+            equipmentArmor = atoi(recEquiArm.c_str());
+            equipmentWeapon = atoi(recEquiArm.c_str());
+            maxHP = atoi(recHP.c_str());
+            currentHP = atoi(recCurrHP.c_str());
+            gold = atoi(recGold.c_str());
+            location = atoi(recLocation.c_str());
+            return true;
+        }
+    }
     return false;
 }
 
@@ -817,14 +818,11 @@ void movimiento() {
     }
 }
 
-int main(){
-    currentHP = maxHP;
-    location = 1;
+void funcion_principa(){
     int x;
     bool y;
-    while(inGame == true){
-        x = menu(3, "Nuevo Juego", "Cargar Juego", "Salir", "", "");
-        switch(x){
+    x = menu(3, "Nuevo Juego", "Cargar Juego", "Salir", "", "");
+    switch(x){
         case 1:
             isAlive = true;
             maxHP = 40;
@@ -850,11 +848,20 @@ int main(){
         case 3:
             inGame = false;
             isAlive = false;
-            return 0;
+            break;
     }
     while(isAlive == true){
         movimiento();
     }
+}
+
+
+int main(){
+    currentHP = maxHP;
+    location = 1;
+
+    while(inGame == true){
+        funcion_principa();
     }
     return 0;
 }
