@@ -548,7 +548,7 @@ bool vacio(std::ifstream& pFile)
 }
 void saveGame(){
 
-    int flag=0;
+    int flag=0, flag2 = 0;
     //Funcion para guardar una partida.
     string name, recordedName, recordedLvl, recordedExp, recEquiArm, recEquiWep, recHP, recCurrHP, recGold, recLocation;
     cout << "Ingrese el nombre asignado al archivo del juego.\n";
@@ -556,11 +556,12 @@ void saveGame(){
     ofstream Save("Savestemp.txt");
     ifstream Save2("Saves.txt");
     if(vacio(Save2) == 1){
+        cout << "le entre\n";
         Save << endl;
     }
     if(Save.is_open()){
-        while(!Save2.eof()){
-            //out<<"entre al while xd"<<endl;
+        while(!Save2.eof() && flag == 0){
+            cout<<"entre al while xd"<<endl;
             Save2 >> recordedName >> recordedLvl >> recordedExp >> recEquiArm >> recEquiWep >> recHP >> recCurrHP >> recGold >> recLocation;
             if(recordedName == name && flag==0){
                 cout<<"entre al if"<<endl;
@@ -572,13 +573,21 @@ void saveGame(){
                 recCurrHP = to_string(currentHP);
                 recGold = to_string(gold);
                 recLocation = to_string(location);
-                flag=1;
+                flag2 = 1;
             }
+            cout << "le escribi\n";
             Save << recordedName << " " << recordedLvl << " " << recordedExp << " " << recEquiArm << " " << recEquiWep << " " << recHP << " " << recCurrHP << " " << recGold << " " << recLocation << endl;
+            if(Save2.eof()){
+                flag = 1;
+            }
         }
-        if(Save2.eof() && flag == 0){
-            Save << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
-            Save << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location) << endl;
+        if(Save2.eof() && flag2 == 0){
+            Save2.close();
+            ofstream Save3("Savestemp.txt", ios::app);
+            cout << "le entre\n";
+            Save3 << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
+            Save3 << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location);
+            Save3.close();
         }
 
     }
@@ -586,7 +595,9 @@ void saveGame(){
         cout << "Se produjo un error.";
     }
     Save.close();
-    Save2.close();
+    if(flag2 == 1){
+        Save2.close();
+    }
     remove("Saves.txt");
     rename("Savestemp.txt", "Saves.txt");
 
