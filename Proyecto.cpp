@@ -9,25 +9,25 @@ int maxHP, currentHP, level, gold, experience, equipmentWeapon, equipmentArmor, 
 bool inGame = true, isAlive = true;
 
 int menu(int options, string option1, string option2, string option3, string option4, string option5){
-    int playerOption = 0; //Funcion para un menu reutilizable
+    string playerOption; //Funcion para un menu reutilizable
     bool good = true;
     while(good == true){
         switch (options){
                 case 1:
-                if(playerOption == 1){
+                cout << "\t1- " << option1 << endl;
+                cin >> playerOption;
+                if(playerOption == "1"){
                     good = false;
                 }
                 else{
                     cout << "Por favor escoja el numero de una opcion valida.\n";
                 }
-                cout << "\t1- " << option1 << endl;
-                cin >> playerOption;
                 break;
                 case 2:
                 cout << "\t1- " << option1 << endl;
                 cout << "\t2- " << option2 << endl;
                 cin >> playerOption;
-                if(playerOption == 1 || 2){
+                if(playerOption == "1" || "2"){
                     good = false;
                 }
                 else{
@@ -39,7 +39,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                 cout << "\t2- " << option2 << endl;
                 cout << "\t3- " << option3 << endl;
                 cin >> playerOption;
-                if(playerOption == 1 || 2 || 3){
+                if(playerOption == "1" || "2" || "3"){
                     good = false;
                 }
                 else{
@@ -52,7 +52,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                 cout << "\t3- " << option3 << endl;
                 cout << "\t4- " << option4 << endl;
                 cin >> playerOption;
-                if(playerOption == 1 || 2 || 3 || 4){
+                if(playerOption == "1" || "2" || "3" || "4"){
                     good = false;
                 }
                 else{
@@ -66,7 +66,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                 cout << "\t4- " << option4 << endl;
                 cout << "\t5- " << option5 << endl;
                 cin >> playerOption;
-                if(playerOption == 1 || 2 || 3 || 4 || 5 || 0){
+                if(playerOption == "1" || "2" || "3" || "4" || "5" || "0"){
                     good = false;
                 }
                 else{
@@ -76,7 +76,7 @@ int menu(int options, string option1, string option2, string option3, string opt
                 break;
         }
     }
-    return playerOption;
+    return atoi(playerOption.c_str());
 }
 
 
@@ -301,8 +301,10 @@ void tienda(){
 }
 
 void nivel(){
-    int func = int(floor(float(experience/(35))) + 1);
-    if(func == level++){
+    int temp = level + 1;
+    int check = int(floor(experience/35));
+    int func = check + 1;
+        if(func >= temp){
         cout << "Has subido de nivel!\n" << "Tus puntos de vida se incrementan por 5, tu dano se incrementa por 3, y tu defense se incrementa por 1.\n";
         level++;
         dano += 3;
@@ -481,7 +483,7 @@ bool enemigo(int id){
         case 1:
             cout << "Detectas un tigre observandote desde un arbusto a lo lejos.\n";
             if (level < 4){
-                x = combate(3, 4, 20, 10);
+                x = combate(3, 4, 20, 13);
             }
             else{
                 x = combate(6, 7, 28, 4);
@@ -576,12 +578,11 @@ void saveGame(){
     
 }
 
-void loadGame(){
+bool loadGame(){
     //Funcion para cargar una partida previa de un archivo externo.
     string name, line, recordedName, recordedLvl, recordedExp, recEquiArm, recEquiWep, recHP, recCurrHP, recGold, recLocation;
     cout << "Ingrese el nombre asignado a tu partida anterior.\n";
     cin >> name;
-
     fstream Save("Saves.txt"); //leer de este archivo
   
 	if(!Save){
@@ -599,8 +600,10 @@ void loadGame(){
                 currentHP = atoi(recCurrHP.c_str());
                 gold = atoi(recGold.c_str());
                 location = atoi(recLocation.c_str());
+                return true;
             }
 	}
+    return false;
 }
 
 void movimiento() {
@@ -818,6 +821,7 @@ int main(){
     currentHP = maxHP;
     location = 1;
     int x;
+    bool y;
     while(inGame == true){
         x = menu(3, "Nuevo Juego", "Cargar Juego", "Salir", "", "");
         switch(x){
@@ -835,8 +839,13 @@ int main(){
             defensa = 0;
             break;
         case 2:
-            loadGame();
-            isAlive = true;
+            y =loadGame();
+            if (y == true){
+                isAlive = true;
+            }
+            else{
+                isAlive = false;
+            }
             break;
         case 3:
             inGame = false;
