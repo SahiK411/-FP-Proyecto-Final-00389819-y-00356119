@@ -9,7 +9,8 @@ int maxHP, currentHP, level, gold, experience, equipmentWeapon, equipmentArmor, 
 bool inGame = true, isAlive = true;
 
 int menu(int options, string option1, string option2, string option3, string option4, string option5){
-    string playerOption; //Funcion para un menu reutilizable
+    string playerOption; 
+    //Funcion para un menu reutilizable en el juego.
     bool good = true;
     while(good == true){
         switch (options){
@@ -81,7 +82,8 @@ int menu(int options, string option1, string option2, string option3, string opt
 
 
 void tienda(){
-    int x = 1, y; //Funcion para cambiar el arma y armadura del jugador mediante compras.
+    int x = 1, y; 
+    //Funcion para cambiar el arma y armadura del jugador mediante compras.
     string z;
     cout << "Usted entra a la tienda. La mercancia se encuentra dividida en dos puestos distintos.\n";
     while (x != 0){
@@ -301,6 +303,7 @@ void tienda(){
 }
 
 void nivel(){
+    //Funcion que rige cuando el jugador sube de nivel.
     int temp = level + 1;
     int check = int(floor(experience/35));
     int func = check + 1;
@@ -315,7 +318,7 @@ void nivel(){
 }
 
 bool combate(int range,int baseDamage, int hp, int rewardRange){
-    //Funcion que manejara el combate del juego.
+    //Funcion que maneja el combate del juego.
     int accion, x, porce;
     string n;
     srand (time(NULL));
@@ -470,6 +473,7 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
 }
 
 bool enemigo(int id){
+    //Funcion que inicializa los valores de la funcion combate.
     bool x;
     switch(id){
         case 0:
@@ -542,12 +546,12 @@ bool enemigo(int id){
     return x;
 }
 
-bool vacio(std::ifstream& pFile)
-{
+bool vacio(std::ifstream& pFile){
+    //Funcion que revisa si un documento esta vacio.
     return pFile.peek() == std::ifstream::traits_type::eof();
 }
-void saveGame(){
 
+void saveGame(){
     int flag=0, flag2 = 0;
     //Funcion para guardar una partida.
     string name, recordedName, recordedLvl, recordedExp, recEquiArm, recEquiWep, recHP, recCurrHP, recGold, recLocation;
@@ -556,15 +560,12 @@ void saveGame(){
     ofstream Save("Savestemp.txt");
     ifstream Save2("Saves.txt");
     if(vacio(Save2) == 1){
-        cout << "le entre\n";
         Save << endl;
     }
     if(Save.is_open()){
         while(!Save2.eof() && flag == 0){
-            cout<<"entre al while xd"<<endl;
             Save2 >> recordedName >> recordedLvl >> recordedExp >> recEquiArm >> recEquiWep >> recHP >> recCurrHP >> recGold >> recLocation;
             if(recordedName == name && flag==0){
-                cout<<"entre al if"<<endl;
                 recordedLvl = to_string(level);
                 recordedExp = to_string(experience);
                 recEquiArm = to_string(equipmentArmor);
@@ -575,7 +576,6 @@ void saveGame(){
                 recLocation = to_string(location);
                 flag2 = 1;
             }
-            cout << "le escribi\n";
             Save << recordedName << " " << recordedLvl << " " << recordedExp << " " << recEquiArm << " " << recEquiWep << " " << recHP << " " << recCurrHP << " " << recGold << " " << recLocation << endl;
             if(Save2.eof()){
                 flag = 1;
@@ -584,7 +584,6 @@ void saveGame(){
         if(Save2.eof() && flag2 == 0){
             Save2.close();
             ofstream Save3("Savestemp.txt", ios::app);
-            cout << "le entre\n";
             Save3 << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
             Save3 << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location);
             Save3.close();
@@ -600,7 +599,6 @@ void saveGame(){
     }
     remove("Saves.txt");
     rename("Savestemp.txt", "Saves.txt");
-
 }
 
 bool loadGame(){
@@ -608,8 +606,7 @@ bool loadGame(){
     string name, line, recordedName, recordedLvl, recordedExp, recEquiArm, recEquiWep, recHP, recCurrHP, recGold, recLocation;
     cout << "Ingrese el nombre asignado a tu partida anterior.\n";
     cin >> name;
-    fstream Save("Saves.txt"); //leer de este archivo
-
+    ifstream Save("Saves.txt"); //leer de este archivo
     if(!Save){
         cout << "Error al abrir el archivo!" << endl;
     }
@@ -632,6 +629,7 @@ bool loadGame(){
 }
 
 void movimiento() {
+    //Funcion que rige el movimiento y la inicialiacion del combate en el juego
     int menu_mov, porce;
     bool victory;
     srand (time(NULL));
@@ -641,7 +639,6 @@ void movimiento() {
             tienda();
             location = 1;
             break;
-
         case 1:
             cout << "Te encuentras dentro de un pueblo pequeno, encapsulado por paredes y fortificaciones.\n";
             currentHP = maxHP;
@@ -665,7 +662,6 @@ void movimiento() {
                     break;
             }
             break;
-
         case 2:
             porce = rand() % 100 + 1;
             if (porce <= 60){
@@ -694,7 +690,6 @@ void movimiento() {
                     break;
             }
             break;
-
         case 3:
             porce = rand() % 100 + 1;
             if (porce <= 40){
@@ -838,11 +833,15 @@ void movimiento() {
             if (victory == false){
                 break;
             }
+            cout << "Has triunfado sobre la bestia! Te sientes seguro de que nada en este mundo puede contra ti, y que esta solo fue la primera de muchas aventuras.\n";
+            cout << "Conglaturation!\n";
+            isAlive = false;
             break;
     }
 }
 
-void funcion_principa(){
+void menu_principal(){
+    //Funcion del menu principal
     int x;
     bool y;
     x = menu(3, "Nuevo Juego", "Cargar Juego", "Salir", "", "");
@@ -879,13 +878,13 @@ void funcion_principa(){
     }
 }
 
-
 int main(){
+    //Funcion Main
     currentHP = maxHP;
     location = 1;
 
     while(inGame == true){
-        funcion_principa();
+        menu_principal();
     }
     return 0;
 }
