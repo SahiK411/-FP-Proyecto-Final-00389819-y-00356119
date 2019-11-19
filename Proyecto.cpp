@@ -643,7 +643,7 @@ void movimiento() {
             cout << "Te encuentras dentro de un pueblo pequeno, encapsulado por paredes y fortificaciones.\n";
             currentHP = maxHP;
             cout<< "Aqui se encuentra la tienda. Recuerda, solo aqui podras acceder a ella, de lo contrario prosigue en tu adventura. Puedes acercarte al bosque, o entrar a la cueva cercana.\n" << endl;
-            menu_mov = menu(4,"Tienda","Bosque","Cueva","Deseas guardar tu partida?","");
+            menu_mov = menu(5,"Tienda","Bosque","Cueva","Deseas guardar tu partida?","Desea salir del juego?");
             switch(menu_mov){
                 case 1:
                     location = 0;
@@ -657,6 +657,10 @@ void movimiento() {
                     break;
                 case 4:
                     saveGame();
+                    break;
+                case 5:
+                    inGame = false;
+                    isAlive = false;
                     break;
                 default:
                     break;
