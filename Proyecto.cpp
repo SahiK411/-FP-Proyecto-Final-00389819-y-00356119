@@ -80,7 +80,6 @@ int menu(int options, string option1, string option2, string option3, string opt
     return atoi(playerOption.c_str());
 }
 
-
 void tienda(){
     int x = 1, y; 
     //Funcion para cambiar el arma y armadura del jugador mediante compras.
@@ -582,7 +581,7 @@ void saveGame(){
             }
         }
         if(Save2.eof() && flag2 == 0){
-            Save2.close();
+            Save.close();
             ofstream Save3("Savestemp.txt", ios::app);
             Save3 << name << " " << to_string(level) << " " << to_string(experience) << " " << to_string(equipmentArmor) << " " << to_string(equipmentWeapon) << " " << to_string(maxHP);
             Save3 << " " << to_string(currentHP) << " " << to_string(gold) << " " << to_string(location);
@@ -593,10 +592,10 @@ void saveGame(){
     else{
         cout << "Se produjo un error.";
     }
-    Save.close();
     if(flag2 == 1){
-        Save2.close();
+        Save.close();
     }
+    Save2.close();
     remove("Saves.txt");
     rename("Savestemp.txt", "Saves.txt");
 }
@@ -610,19 +609,20 @@ bool loadGame(){
     if(!Save){
         cout << "Error al abrir el archivo!" << endl;
     }
-
-    while(!Save.eof()){
-        Save >> recordedName >> recordedLvl >> recordedExp >> recEquiArm >> recEquiWep >> recHP >> recCurrHP >> recGold >> recLocation;
-        if(recordedName == name){
-            level = atoi(recordedLvl.c_str());
-            experience = atoi(recordedExp.c_str());
-            equipmentArmor = atoi(recEquiArm.c_str());
-            equipmentWeapon = atoi(recEquiArm.c_str());
-            maxHP = atoi(recHP.c_str());
-            currentHP = atoi(recCurrHP.c_str());
-            gold = atoi(recGold.c_str());
-            location = atoi(recLocation.c_str());
-            return true;
+    else{
+        while(!Save.eof()){
+            Save >> recordedName >> recordedLvl >> recordedExp >> recEquiArm >> recEquiWep >> recHP >> recCurrHP >> recGold >> recLocation;
+            if(recordedName == name){
+                level = atoi(recordedLvl.c_str());
+                experience = atoi(recordedExp.c_str());
+                equipmentArmor = atoi(recEquiArm.c_str());
+                equipmentWeapon = atoi(recEquiArm.c_str());
+                maxHP = atoi(recHP.c_str());
+                currentHP = atoi(recCurrHP.c_str());
+                gold = atoi(recGold.c_str());
+                location = atoi(recLocation.c_str());
+                return true;
+            }
         }
     }
     return false;
