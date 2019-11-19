@@ -92,15 +92,15 @@ void tienda(){
             case 1:
                 cout << "Bienvenido a la seccion de armas. Puede adquirir cualquier producto que le llame la atencion.\n";
                 cout << "Pulse '0' para salir.\n";
-                y = menu(5, "Espada de entrenamiento - 20 ORO" , "Alabarda Oxidada - 35 ORO", "Espada de plata - 40 ORO", " Sable de acero- 50 ORO", "Lanza de Oro - 70 ORO");
+                y = menu(5, "Espada de entrenamiento - 10 ORO" , "Alabarda Oxidada - 35 ORO", "Espada de plata - 40 ORO", " Sable de acero- 50 ORO", "Lanza de Oro - 70 ORO");
                 switch (y){
                     case 1:
                         cout << "Pequena espada de entrenamiento. +3 de ataque, +0 de defensa.\n";
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
-                            if(gold >= 20){
-                                gold -= 20;
+                            if(gold >= 10){
+                                gold -= 10;
                                 equipmentWeapon = 1;
                                 break;
                             }
@@ -114,7 +114,7 @@ void tienda(){
                             break;
                         }
                     case 2:
-                        cout << "Alabarda Oxidada. +6 de ataque, +1 de defensa.\n";
+                        cout << "Sable Oxidado. +6 de ataque, +1 de defensa.\n";
                         cout << "Adquirir? S/N\n";
                         cin >> z;
                         if (z == "s" || "si" || "Si" || "S" || "SI"){
@@ -395,11 +395,11 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
                     else{
                         cout << "Tu ataque le hizo " << x << " puntos de dano.\n";
                         hp -= x;
-                        cout << "Su vida actual es de: " << hp << endl;
+                        cout << "La vida actual de tu enemigo es de: " << hp << endl;
                     }
                 }
                 else{
-                    cout << "Tu ataque no hizo contacto.\n";
+                    cout << "Tu ataque no hizo contacto. No has hecho dano.\n";
                 }
                 break;
             case 2:
@@ -410,13 +410,13 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
                         cout << "No has hecho dano tio" << endl;
                     }
                     else{
-                        cout << "Tu ataque le hizo " << x << " puntos de dano.\n";
+                        cout << "Tu ataque ha hecho " << x << " puntos de dano.\n";
                         hp -= x;
-                        cout << "Su vida actual es de: " << hp << endl;
+                        cout << "La vida actual de tu enemigo es de: " << hp << endl;
                     }
                 }
                 else{
-                    cout << "Tu ataque no hizo contacto.\n";
+                    cout << "Tu ataque no hizo contacto. No has hecho dano.\n";
                 }
                 break;
             case 3:
@@ -438,13 +438,13 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
             x = rand() % range + baseDamage;
             x -= tempDef;
             if(x <= 0){
-                cout << "No tomas nada de dano.\n";
+                cout << "No recibes nada de dano.\n";
             }
             else{
-                cout << "Tomas " << x << " puntos de dano.\n";
+                cout << "Has recibido " << x << " puntos de dano.\n";
                 currentHP -= x;
                 if(currentHP <= 0){
-                    cout << "Pierdes tu vision y caes al piso. Tu aventura termina aqui.\n";
+                    cout << "Pierdes tu vision y caes al piso. Has muerto! Tu aventura termina aqui.\n";
                     isAlive = false;
                     return false;
                 }
@@ -452,9 +452,9 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
             }
         }
         else if(hp <= 0){
-            cout << "Tu enemigo yace inmobil frente a ti. Has sido victorioso.\n";
+            cout << "El enemigo ha muerto. Victoria magistral.\n";
             x = rand() % rewardRange + 6;
-            cout << "Encuentras " << x << " pedazos de oro en tu contrincante.\n";
+            cout << "\nEncuentras " << x << " lotes de oro en tu contrincante.\n";
             gold += x;
             cout << "Tu oro actual es de " << gold << endl;
             x = rand() % rewardRange + 6;
@@ -476,7 +476,7 @@ bool enemigo(int id){
     bool x;
     switch(id){
         case 0:
-            cout << "Un duende se asoma a lo lejos.\n";
+            cout << "Un duende se asoma a lo lejos. Preparate para el combate!\n";
             if (level < 2){
                 x = combate(7, 3, 15, 9);
             }
@@ -485,7 +485,7 @@ bool enemigo(int id){
             }
             break;
         case 1:
-            cout << "Detectas un tigre observandote desde un arbusto a lo lejos.\n";
+            cout << "Detectas un tigre observandote desde un arbusto a lo lejos. Preparate para el combate!\n";
             if (level < 4){
                 x = combate(3, 4, 20, 13);
             }
@@ -494,7 +494,7 @@ bool enemigo(int id){
             }
             break;
         case 2:
-            cout << "Un orco corre hacia ti, gritando.\n";
+            cout << "Un orco corre hacia ti, gritando. Preparate para el combate!\n";
             if(level < 6){
                 x = combate(9, 9, 25, 14);
             }
@@ -503,7 +503,7 @@ bool enemigo(int id){
             }
             break;
         case 3:
-            cout << "Una aparicion espectral se asoma a lo lejos. Arranca una espada oxidada de la tierra y se te acerca silenciosamente.\n";
+            cout << "Una aparicion espectral se asoma a lo lejos. Arranca una espada oxidada de la tierra y se te acerca silenciosamente. Preparate para el combate!\n";
             if(level < 8){
                 x = combate(6, 9, 30, 10);
             }
@@ -512,7 +512,7 @@ bool enemigo(int id){
             }
             break;
         case 4:
-            cout << "Puedes sentir movimiento dentro de la niebla, y el agua frente a ti se desplaza violentamente. Con mucho esfuerzo, logras encontrar la fuente de la conmocion, una sirena.\n";
+            cout << "Puedes sentir movimiento dentro de la niebla, y el agua frente a ti se desplaza violentamente. Con mucho esfuerzo, logras encontrar la fuente de la conmocion, una sirena.\nPreparate para el combate!\n";
             if(level < 12){
                 x = combate(16, 15, 30, 16);
             }
@@ -521,7 +521,7 @@ bool enemigo(int id){
             }
             break;
         case 5:
-            cout << "Al fondo de la cueva encuentras un golem, facilmente sobrepasa tu altura dos veces. Aparentemente pudo sentir tu movimiento, ya que se levanta y arroja una roca en tu direccion.\n";
+            cout << "Al fondo de la cueva encuentras un golem, facilmente sobrepasa tu altura dos veces. Aparentemente pudo sentir tu movimiento, ya que se levanta y arroja una roca en tu direccion.\nPreparate para el combate!\n";
             if(level < 15){
                 x = combate(50, 15, 75, 50);
             }
@@ -530,7 +530,7 @@ bool enemigo(int id){
             }
             break;
         case 6:
-            cout << "Puedes ver una figura al fondo del pasaje. El enemigo frente a ti es un dullahan, el cual esta usando su cabeza para escanear la cueva. Se enfoca en tu direccion, y su mano libre agarra un sable de su espalda.\n";
+            cout << "Puedes ver una figura al fondo del pasaje. El enemigo frente a ti es un dullahan, el cual esta usando su cabeza para escanear la cueva. Se enfoca en tu direccion, y su mano libre agarra un sable de su espalda.\nPreparate para el combate!\n";
             if(level < 17){
                 x = combate(15, 18, 56, 28);
             }
@@ -539,7 +539,7 @@ bool enemigo(int id){
             }
             break;
         case 7:
-            cout << "Te encuentras a un dragon de tres cabezas. Inmediatamente se mueve, quebrando la pared detras de ti y bloqueando tu salida. Esta sera tu ultima batalla.\n";
+            cout << "Te encuentras a un dragon de tres cabezas. Inmediatamente se mueve, quebrando la pared detras de ti y bloqueando tu salida. Esta sera tu ultima batalla. Preparate para el combate!\n";
             x = combate(30, 42, 90, 100);
     }
     return x;
@@ -677,7 +677,7 @@ void movimiento() {
             cout << "Te encuentras en las afueras de un bosque, cercano al pueblo. La cubierta de los arboles todavia permite la entrada de la luz de sol.\n";
             cout << "De aqui te puedes adentrar al bosque, entrar a la cueva cercana, o regresar al pueblo.\n";
             if(level < 7){
-                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+                cout << "Eres inferior a nivel 7. Si no te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
             }
             menu_mov = menu(3, "Ir al Bosque Profundo", "Buscar la Cueva", "Regresar al Pueblo", "", "");
             switch(menu_mov){
@@ -702,7 +702,7 @@ void movimiento() {
             cout << "La entrada de la cueva se encuentra frente a ti. La poca luz que entra sera suficiente para defenderte en una pelea, pero adentrarse mas causara que tus ataques sean menos certeros.\n";
             cout << "De aqui te puedes adentrar a la cueva, salir al bosque cercano, o regresar al pueblo.\n";
             if(level < 5){
-                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+                cout << "Eres inferior a nivel 5. Si no te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
             }
             menu_mov = menu(3, "Adentrarse a la cueva", "Ir al bosque", "Regresar al pueblo", "", "");
             switch(menu_mov){
@@ -730,7 +730,7 @@ void movimiento() {
             cout << "Te encuentras en un bosque denso. Los arbustos y las hojas muertas anuncian tu presencia a cualquier enemigo cercano, y una niebla blanca los oculta de tu vision.\n";
             cout << "Puedes continuar tu viaje, o retornar hacia las afueras del bosque.\n";
             if(level < 10){
-                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+                cout << "Eres inferior a  nivel 10. Si no te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
             }
             menu_mov = menu(2, "Buscar la salida del bosque", "Regresar a las afueras del bosque", "", "", "");
             switch(menu_mov){
@@ -755,7 +755,7 @@ void movimiento() {
             cout << "La cueva ha perdido la mayor parte de la luz. Tus ojos se acostumbran a la oscuridad, permitiendote explorar cuidadosamente.\n";
             cout << "Puedes ver dos caminos en la oscuridad, y consideras cual seria el mas oportuno. Tambien podrias retornar por donde entraste, si no te sientes confidente en continuar.\n";
             if(level < 14){
-                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+                cout << "Eres inferior a nivel 14. Si no te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
             }
             menu_mov = menu(3, "El camino de la izquierda", "El camino de la derecha", "Retornar", "", "");
             switch(menu_mov){
@@ -783,7 +783,7 @@ void movimiento() {
             cout << "La niebla se dispersa lo suficiente para ver claramente. Al otro lado de un foso lleno de agua puedes ver un castillo. Parece abandonado.\n";
             cout << "Esta sera tu ultima oportunidad de regresar por medio del bosque. Deseas cruzar el foso?\n";
             if(level < 17){
-                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+                cout << "Eres inferior a nivel 17. Si no te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
             }
             menu_mov = menu(2, "Cruzar", "Regresar al bosque", "", "", "");
             switch(menu_mov){
@@ -821,7 +821,7 @@ void movimiento() {
             cout << "Despues de la batalla, continuas por el pasaje. No tardas en encontrar una salida, la cual viene a dar a un puente. Del otro lado puedes ver un castillo abandonado.\n";
             cout << "Deseas continuar? Esta sera tu ultima oportunidad de regresar por medio de la cueva.\n";
             if(level < 17){
-                cout << "No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
+                cout << "Eres inferior a nivel 17. Si No te sientes muy seguro en tus habilidades, no seria buena idea adentrarse mas.\n";
             }
             menu_mov = menu(2, "Cruzar", "Regresar por la cueva", "", "", "");
             switch (menu_mov){
