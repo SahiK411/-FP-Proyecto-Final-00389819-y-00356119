@@ -379,8 +379,8 @@ bool combate(int range,int baseDamage, int hp, int rewardRange){
                 tempDef += 8;
                 break;
             case 5:
-                dano -= 6;
-                defensa += 14;
+                tempDano -= 6;
+                tempDef += 14;
                 break;
         }
         accion = menu(3, "Ataque Fuerte", "Ataque Suave", "Defender", "", "");
